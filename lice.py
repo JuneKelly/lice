@@ -1,7 +1,31 @@
 import sys
 import os
 
+from optparse import OptionParser
+
+
 current_directory = os.getcwd()
+parser = OptionParser()
+
+def main():
+
+    parser.add_option('-l', '--license')
+    parser.add_option('-f', '--file')
+
+    (options, args) = parser.parse_args()
+
+    selected_license = options.license
+    output_file = None
+
+    if options.file != None:
+        output_file = options.file
+
+    target = '{0}/{1}'.format(current_directory, output_file)
+
+    with open(target, 'w') as f:
+        f.write(licenses['bsd2']['text'])
+        print "Lice: Wrote license to {0}".format(target)
+
 
 licenses = {
     'bsd2': """
@@ -86,13 +110,5 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 }
-
-def main():
-    target = '{0}/license.txt'.format(current_directory)
-
-    with open(target, 'w') as f:
-        f.write(licenses['bsd2']['text'])
-
-    print "Wrote license to {0}".format(target)
 
 main()
